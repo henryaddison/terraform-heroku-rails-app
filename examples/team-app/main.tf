@@ -3,7 +3,8 @@ provider "heroku" {
 }
 
 module "heroku_app" {
-    source = "git@github.com:henryaddison/terraform-heroku-rails-app.git?ref=v0.0.1"
+    source  = "henryaddison/rails-app/heroku"
+    version = "0.0.1"
 
     environment = "test"
     custom_domain = "terraform-team-example.hja22.co.uk"
