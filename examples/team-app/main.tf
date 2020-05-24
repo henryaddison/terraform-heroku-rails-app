@@ -4,7 +4,7 @@ provider "heroku" {
 
 module "heroku_app" {
     source  = "henryaddison/rails-app/heroku"
-    version = "0.0.1"
+    version = "0.0.3"
 
     environment = "test"
     custom_domain = "terraform-team-example.hja22.co.uk"
