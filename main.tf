@@ -45,39 +45,30 @@ resource "heroku_domain" "domain" {
     hostname = var.custom_domain
 }
 
-resource "heroku_addon" "queue" {
-    count = length(var.queue_redis_plan) > 0 ? 1 : 0
+module "queue" {
+    source = "./modules/heroku-redis"
+
+    name = "queue"
     app  = heroku_app.app.name
-    plan = "heroku-redis:${var.queue_redis_plan}"
+    plan = var.queue_redis_plan
 }
 
-resource "heroku_addon_attachment" "queue" {
-    count = length(var.queue_redis_plan) > 0 ? 1 : 0
-    app_id  = heroku_app.app.name
-    addon_id = heroku_addon.queue[0].id
-    name = "app_queue"
-}
+module "cache" {
+    source = "./modules/heroku-redis"
 
-resource "heroku_addon" "cache" {
-    count = length(var.cache_redis_plan) > 0 ? 1 : 0
+    name = "cache"
     app  = heroku_app.app.name
-    plan = "heroku-redis:${var.cache_redis_plan}"
+    plan = var.cache_redis_plan
 }
 
-resource "heroku_addon_attachment" "cache" {
-    count = length(var.cache_redis_plan) > 0 ? 1 : 0
-    app_id  = heroku_app.app.name
-    addon_id = heroku_addon.cache[0].id
-    name = "app_cache"
-}
+resource "heroku_addon" "deploy_hook" {
+    for_each = toset(var.deploy_hook_urls)
 
-resource "heroku_addon" "bugsnag-deployhook" {
-    count = length(var.bugsnag_api_key) > 0 ? 1 : 0
     app  = heroku_app.app.name
     plan = "deployhooks:http"
 
     config = {
-        url = "https://build.bugsnag.com/heroku?apiKey=${var.bugsnag_api_key}&releaseStage=${var.environment}&repository=${urlencode(var.repo)}"
+        url = each.value
     }
 }
 

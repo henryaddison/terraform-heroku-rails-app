@@ -65,16 +65,10 @@ variable "cache_redis_plan" {
     default = ""
 }
 
-variable "bugsnag_api_key" {
-    description = "API key to hook up to Bugsnag (optional - leave blank if not linked to bugsnag)"
-    type = string
-    default = ""
-}
-
-variable "repo" {
-    description = "Github repo (optional)"
-    type = string
-    default = ""
+variable "deploy_hook_urls" {
+  description = "URLs to hit after each deploy"
+  type = list(string)
+  default = []
 }
 
 variable "heroku_team_name" {
