@@ -12,7 +12,7 @@ module "heroku_app" {
     source  = "henryaddison/rails-app/heroku"
     version = "0.0.4"
 
-    environment = "test"
+    environment = local.environment
     custom_domain = "terraform-team-example.hja22.co.uk"
     app_name_prefix = "terraform-team-example"
     region = "eu"
