@@ -4,11 +4,11 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 variable "url" {
-    description = "URL to hit each deploy"
-    type = string
+  description = "URL to hit each deploy"
+  type        = string
 }
 
 variable "app" {
-    description = "Name of the Heroku app to which to attach the deploy hook"
-    type = string
+  description = "Name of the Heroku app to which to attach the deploy hook"
+  type        = string
 }
